@@ -1,0 +1,43 @@
+//6 nov 26
+//medium - saw solution a bit
+class Solution {
+public:
+    vector<int> countServers(int n, vector<vector<int>>& logs, int x, vector<int>& queries) {
+        for(int i=0;i<logs.size();i++)
+        {
+            swap(logs[i][0],logs[i][1]);
+        }
+        vector<vector<int>> q;
+        for(int i=0;i<queries.size();i++)
+        {
+            q.push_back({queries[i],i});
+        }
+        sort(q.begin(),q.end());
+        sort(logs.begin(),logs.end());
+        int l=0,r=0;
+        vector<int> ans;
+        unordered_map<int,int> m;
+        for(int i=0;i<q.size();i++)
+        {
+             while(r<logs.size()&&logs[r][0]<=q[i][0])
+            {
+                m[logs[r][1]]++;
+                r++;
+            }
+            while(l<logs.size()&&logs[l][0]<(q[i][0]-x))
+            {
+                m[logs[l][1]]--;
+                if(m[logs[l][1]]==0)
+                m.erase(logs[l][1]);
+                l++;
+            }
+            ans.push_back(n-m.size());
+        }
+        vector<int> ret(q.size());
+        for(int i=0;i<ans.size();i++)
+        {
+            ret[q[i][1]]=ans[i];
+        }
+        return ret;
+    }
+};
