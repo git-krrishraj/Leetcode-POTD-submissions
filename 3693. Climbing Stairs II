@@ -1,0 +1,22 @@
+//10 nov 26
+//medium
+
+class Solution {
+public:
+    int climbStairs(int n, vector<int>& costs) {
+        costs.insert(costs.begin(),0);
+        vector<int> dp(costs.size(),1e9);
+        dp[0]=1+costs[0];
+        for(int i=0;i<costs.size();i++)
+        {
+             for(int j=1;j<=3;j++)
+        {
+                int n1=1e9;
+                if(i-j>=0)
+                n1=costs[i]+j*j+dp[i-j];
+                dp[i]=min(dp[i],n1);
+        }
+        }
+        return dp[n]-1;
+    }
+};
